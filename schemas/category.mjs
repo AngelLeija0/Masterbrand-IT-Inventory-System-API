@@ -2,6 +2,7 @@ import * as z from 'zod'
 
 const categorySchema = z.object({
   name: z.string(),
+  properties: z.array(),
   created_at: z.date(),
   updated_at: z.date()
 })
