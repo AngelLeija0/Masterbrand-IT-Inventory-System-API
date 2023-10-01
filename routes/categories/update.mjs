@@ -27,6 +27,7 @@ router.patch('/update/:id', async (req, res) => {
     const categoryUpdated = await category.save()
     res.status(200).json(categoryUpdated)
   } catch (error) {
+    console.log(error)
     res.status(500).json({ message: error.message })
   }
 })
