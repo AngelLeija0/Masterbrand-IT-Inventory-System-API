@@ -17,11 +17,19 @@ router.post('/create', async (req, res) => {
     }
 
     const newAsset = new Asset(validateInfo.data)
-    const assetAdded = await newAsset.save()
-    res.status(201).json(assetAdded)
+
+    console.log(assetInfo.images)
+
+    //const assetAdded = await newAsset.save()
+    //res.status(201).json(assetAdded)
   } catch (error) {
     res.status(500).json({ message: error.message })
   }
 })
+
+
+async function saveImages(images) {
+  console.log(images)
+}
 
 export default router

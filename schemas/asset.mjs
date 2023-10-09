@@ -1,8 +1,14 @@
-import { z } from 'zod'
+import { z } from "zod";
 
 const assetSchema = z.object({
   category: z.string().optional(),
-  images: z.array(z.object()).optional(),
+  images: z
+    .array(
+      z.object({
+        __key: z.string(),
+      })
+    )
+    .optional(),
   description: z.string().optional(),
   manufacturer: z.string().optional(),
   model: z.string().optional(),
@@ -15,26 +21,27 @@ const assetSchema = z.object({
   location: z.string().optional(),
   location_extra_info: z.string().optional(),
   current_employee: z.string().optional(),
-  actions: z.array(
-    z
-      .object({
+  actions: z
+    .array(
+      z.object({
         id: z.string(),
         name: z.string(),
         description: z.string(),
         state: z.string(),
         attachments: z.array(),
-        date: z.string()
+        date: z.string(),
       })
-  ).optional(),
+    )
+    .optional(),
   status: z
     .object({
       name: z.string(),
       description: z.string(),
-      date: z.string()
+      date: z.string(),
     })
     .optional(),
-  created_at: z.date(),
-  updated_at: z.date(),
+  created_at: z.date().optional(),
+  updated_at: z.date().optional(),
   __v: z.optional(),
   operating_system: z.string().optional(),
   ip_address: z.string().optional(),
@@ -44,39 +51,46 @@ const assetSchema = z.object({
   quantity_last_out: z.string().optional(),
   date_quantity_last_out: z.string().optional(),
   quantity_last_restock: z.string().optional(),
-  date_last_restock: z.string().optional()
-})
+  date_last_restock: z.string().optional(),
+});
 
-function validateAsset (object) {
+function validateAsset(object) {
   if (object._id) {
-    delete object._id
-  }
-  object.purchase_date = new Date(object.purchase_date)
-  object.warranty_expiration_date = new Date(object.warranty_expiration_date)
-  object.created_at = new Date(object.created_at)
-  object.updated_at = new Date(object.updated_at)
-  return assetSchema.safeParse(object)
-}
-
-function validatePartialAsset (object) {
-  if (object._id) {
-    delete object._id
-  }
-  if (object.created_at) {
-    object.created_at = new Date(object.created_at)
-  }
-  if (object.updated_at) {
-    object.updated_at = new Date(object.updated_at)
+    delete object._id;
   }
   if (object.purchase_date) {
-    object.purchase_date = new Date(object.purchase_date)
+    object.purchase_date = new Date(object.purchase_date);
   }
   if (object.warranty_expiration_date) {
-    object.warranty_expiration_date = new Date(object.warranty_expiration_date)
+    object.warranty_expiration_date = new Date(object.warranty_expiration_date);
   }
-  console.log(object)
-  return assetSchema.partial().safeParse(object)
+  if (object.created_at) {
+    object.created_at = new Date(object.created_at);
+  }
+  if (object.updated_at) {
+    object.updated_at = new Date(object.updated_at);
+  }
+  return assetSchema.safeParse(object);
 }
 
+function validatePartialAsset(object) {
+  if (object._id) {
+    delete object._id;
+  }
+  if (object.created_at) {
+    object.created_at = new Date(object.created_at);
+  }
+  if (object.updated_at) {
+    object.updated_at = new Date(object.updated_at);
+  }
+  if (object.purchase_date) {
+    object.purchase_date = new Date(object.purchase_date);
+  }
+  if (object.warranty_expiration_date) {
+    object.warranty_expiration_date = new Date(object.warranty_expiration_date);
+  }
+  console.log(object);
+  return assetSchema.partial().safeParse(object);
+}
 
-export { validateAsset, validatePartialAsset }
+export { validateAsset, validatePartialAsset };
