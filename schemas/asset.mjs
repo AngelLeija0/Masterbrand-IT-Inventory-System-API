@@ -1,23 +1,23 @@
 import { z } from 'zod'
 
 const assetSchema = z.object({
-  category: z.string(),
+  category: z.string().optional(),
   images: z
     .object({
-      default_image: z.string(),
-      all: z.array(z.string())
+      default_image: z.string().optional(),
+      all: z.array(z.string()).optional()
     })
     .optional(),
-  description: z.string(),
-  manufacturer: z.string(),
-  model: z.string(),
-  serial_number: z.string(),
-  purchase_from: z.string(),
-  purchase_date: z.date(),
-  cost: z.string(),
-  warranty_info: z.string(),
-  warranty_expiration_date: z.date(),
-  location: z.string(),
+  description: z.string().optional(),
+  manufacturer: z.string().optional(),
+  model: z.string().optional(),
+  serial_number: z.string().optional(),
+  purchase_from: z.string().optional(),
+  purchase_date: z.date().optional(),
+  cost: z.string().optional(),
+  warranty_info: z.string().optional(),
+  warranty_expiration_date: z.date().optional(),
+  location: z.string().optional(),
   location_extra_info: z.string().optional(),
   current_employee: z.string().optional(),
   actions: z.array(
@@ -30,8 +30,7 @@ const assetSchema = z.object({
         attachments: z.array(),
         date: z.string()
       })
-      .optional()
-  ),
+  ).optional(),
   status: z
     .object({
       name: z.string(),
