@@ -2,13 +2,14 @@ import { z } from "zod";
 
 const assetSchema = z.object({
   category: z.string().optional(),
+  /*
   images: z
     .array(
       z.object({
         __key: z.string(),
       })
     )
-    .optional(),
+    .optional(),*/
   description: z.string().optional(),
   manufacturer: z.string().optional(),
   model: z.string().optional(),
@@ -69,6 +70,9 @@ function validateAsset(object) {
   }
   if (object.updated_at) {
     object.updated_at = new Date(object.updated_at);
+  }
+  if (object.status?.date) {
+    object.status.date = new Date(object.status.date);
   }
   return assetSchema.safeParse(object);
 }

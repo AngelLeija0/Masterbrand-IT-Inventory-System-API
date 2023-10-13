@@ -7,6 +7,12 @@ dotenv.config();
 
 import cors from 'cors';
 
+import path from 'path';
+import { fileURLToPath } from 'url';
+
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
+
 app.use(cors());
 
 app.disable('x-powered-by');
@@ -28,6 +34,8 @@ app.use(function (req, res, next) {
   res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
   next();
 });
+
+app.use('/uploads/images', express.static(path.join(__dirname, 'uploads', 'images')));
 
 import administratorsRouter from './routes/administrators/index.mjs';
 app.use('/administrators', administratorsRouter);
