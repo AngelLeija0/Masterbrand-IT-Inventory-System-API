@@ -38,7 +38,7 @@ const assetSchema = z.object({
     .object({
       name: z.string(),
       description: z.string(),
-      date: z.string(),
+      date: z.date(),
     })
     .optional(),
   created_at: z.date().optional(),

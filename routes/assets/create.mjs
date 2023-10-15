@@ -16,7 +16,7 @@ const storage = multer.diskStorage({
     cb(null, path.resolve(__dirname, '../../', 'uploads', file.fieldname))
   },
   filename: function (req, file, cb) {
-    cb(null, file.originalname.replace(/\.[^/.]+$/, '') + '-' + Date.now() + path.extname(file.originalname));
+    cb(null, generateUniqueName(file.originalname))
   },
 })
 
@@ -32,14 +32,27 @@ router.post('/create', uploadDocuments.array('images'), async (req, res) => {
       return res.status(400).json({ message: "Data no found it" })
     }
 
+    if (assetInfo.statusName && assetInfo.statusDescription) {
+      const statusObj = {
+        name: assetInfo.statusName,
+        description: assetInfo.statusDescription,
+        date: new Date()
+      }
+
+      delete assetInfo.statusName
+      delete assetInfo.statusDescription
+
+      assetInfo.status = statusObj
+    }
+
     const validateInfo = validateAsset(assetInfo)
     if (validateInfo.error) {
-      return res.status(400).json({ message: validateInfo.error.message })
+      return res.status(400).json({ message: "Error in schema: " + validateInfo.error.message })
     }
     
     if (assetImages) {
       const nameImages = assetImages.map((image) => {
-        return image.originalname.replace(/\.[^/.]+$/, '') + '-' + Date.now() + path.extname(image.originalname)
+        return generateUniqueName(image.originalname)
       })
       validateInfo.data.images = {
         default_image: nameImages[0],
@@ -52,10 +65,23 @@ router.post('/create', uploadDocuments.array('images'), async (req, res) => {
     const newAsset = new Asset(validateInfo.data)
     const assetAdded = await newAsset.save()
     res.status(201).json(assetAdded)
+    
   } catch (error) {
     console.log(error)
     res.status(500).json({ message: error.message })
   }
 })
+
+function generateUniqueName(originalname) {
+  const actualDate = new Date()
+  const actualYear = actualDate.getFullYear()
+  const actualMonth = actualDate.getMonth()
+  const actualHour = actualDate.getHours()
+  const actualMinute = actualDate.getMinutes()
+
+  const actualDateFormatted = actualYear + actualMonth + actualHour + actualMinute
+
+  return originalname.replace(/\.[^/.]+$/, '') + '-' + actualDateFormatted + path.extname(originalname)
+}
 
 export default router
