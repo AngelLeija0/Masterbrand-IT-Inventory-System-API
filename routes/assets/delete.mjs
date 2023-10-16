@@ -21,10 +21,14 @@ router.delete('/delete/:id', async (req, res) => {
 
     const imagesToDelete = assetToDelete.images?.all
     if (imagesToDelete.length > 0) {
-      imagesToDelete.images.all.map(async image => {
-        const imagePath = path.resolve(__dirname, '../../', 'uploads', image)
-        console.log(imagePath)
-        await fs.unlink(imagePath)
+      imagesToDelete.map(async image => {
+        const imagePath = path.resolve(__dirname, '../../', 'uploads/images', image)
+        fs.access("./reports/new.txt", fs.constants.F_OK, async error => {
+          if (error) {
+            return
+          }
+          await fs.unlink(imagePath)
+        })
       })
     }
 
