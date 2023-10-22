@@ -24,7 +24,8 @@ router.get('/', async (req, res) => {
         location: asset.location,
         location_extra_info: asset.location_extra_info,
         current_employee: asset.current_employee,
-        status: asset.status.name
+        status: asset.status.name,
+        created_at: asset.created_at
       }
       assetsToSend.push(assetMainInfo)
     })

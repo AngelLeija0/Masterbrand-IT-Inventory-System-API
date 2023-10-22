@@ -14,7 +14,7 @@ const __dirname = path.dirname(__filename)
 
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
-    cb(null, path.resolve(__dirname, '../../', 'uploads', file.fieldname))
+    cb(null, path.resolve(__dirname, '../../', 'uploads', 'attachments'))
   },
   filename: function (req, file, cb) {
     cb(null, generateUniqueName(file.originalname))
@@ -46,10 +46,10 @@ router.patch('/update/:id', async (req, res) => {
   }
 })
 
-router.patch('/update/create/action/:id', uploadDocuments.array('images'), async (req, res) => {
+router.patch('/update/create/action/:id', uploadDocuments.array('attachments'), async (req, res) => {
   try {
     const actionInfo = req.body
-    const assetImages = req.files
+    const assetAttachments = req.files
 
     const asset = await Asset.findById(req.params.id)
     if (!asset) {
@@ -68,22 +68,19 @@ router.patch('/update/create/action/:id', uploadDocuments.array('images'), async
       date: new Date()
     }
 
-    if (assetImages) {
-      if (!asset.images?.all) {
-        asset.images.all = []
-      }
-      const actionImages = []
-      assetImages.map(image => {
-        actionImages.push(generateUniqueName(image.originalname))
+    if (assetAttachments) {
+      const actionAttachments = []
+      assetAttachments.map(image => {
+        actionAttachments.push(generateUniqueName(image.originalname))
       })
-      newAction.attachments = actionImages
+      newAction.attachments = actionAttachments
     }
 
     asset.actions.push(newAction)
     asset.updated_at = new Date()
 
     const assetUpdated = await asset.save()
-    es.status(200).json(assetUpdated)
+    res.status(200).json(assetUpdated)
   } catch (error) {
     console.log(error)
     res.status(500).json({ message: error.message })

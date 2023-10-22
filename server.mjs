@@ -35,7 +35,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.use('/uploads/images', express.static(path.join(__dirname, 'uploads', 'images')));
+app.use('/uploads/attachments', express.static(path.join(__dirname, 'uploads', 'attachments')));
 
 import administratorsRouter from './routes/administrators/index.mjs';
 app.use('/administrators', administratorsRouter);
