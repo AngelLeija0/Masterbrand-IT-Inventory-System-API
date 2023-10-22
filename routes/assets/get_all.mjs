@@ -5,7 +5,7 @@ import Asset from '../../models/asset.mjs'
 
 router.get('/', async (req, res) => {
   try {
-    const assets = await Asset.find()
+    const assets = await Asset.find().sort({ created_at: -1 })
 
     if (assets == null || assets == {}) {
       return res.status(200).json({})
