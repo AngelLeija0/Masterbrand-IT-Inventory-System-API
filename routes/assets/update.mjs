@@ -150,30 +150,24 @@ router.patch('/update/update/action/:id', uploadDocuments.array('images'), async
       return res.status(400).json({ message: 'Action info no found it' })
     }
 
-    asset.actions.map((action) => {
-      if (action.id === actionInfo.id) {
-        return {
-          ...action,
-          ...actionInfo,
-        }
-      } else {
-        return action
+    const currentActionIndex = asset.actions.findIndex((action) => action.id === actionInfo.id)
+    
+    if (asset.actions[currentActionIndex]) {
+      Object.assign(asset.actions[currentActionIndex], actionInfo)
+      
+      if (assetImages) {
+        const actionImages = []
+        assetImages.map(image => {
+          actionImages.push(generateUniqueName(image.originalname))
+        })
+        asset.actions[currentActionIndex].attachments = actionImages
       }
-    })
-
-    if (assetImages) {
-      const actionImages = []
-      assetImages.map(image => {
-        actionImages.push(generateUniqueName(image.originalname))
-      })
-      newAction.attachments = actionImages
+      
+      asset.updated_at = new Date()
     }
-
-    asset.actions.push(newAction)
-    asset.updated_at = new Date()
-
-    const assetUpdated = await asset.save()
-    es.status(200).json(assetUpdated)
+    
+    const assetUpdated = await Asset.findByIdAndUpdate(asset._id, asset)
+    res.status(200).json(assetUpdated)
   } catch (error) {
     console.log(error)
     res.status(500).json({ message: error.message })
