@@ -46,6 +46,35 @@ router.patch('/update/:id', async (req, res) => {
   }
 })
 
+router.patch('/add-new-image/:id', uploadDocuments.array('attachments'), async (req, res) => {
+  try {
+    const assetAttachments = req.files
+
+    const asset = await Asset.findById(req.params.id)
+    if (!asset) {
+      return res.status(404).json({ message: 'Asset not found' })
+    }
+
+    if (!assetAttachments) {
+      return res.status(400).json({ message: 'No data send it' })
+    }
+
+    asset.images?.all ? '' : asset.images?.all = []
+
+    assetAttachments.map(image => {
+      asset.images?.all.push(generateUniqueName(image.originalname))
+    })
+
+    asset.updated_at = new Date()
+
+    const assetUpdated = await asset.save()
+    res.status(200).json(assetUpdated)
+  } catch (error) {
+    console.log(error)
+    res.status(500).json({ message: error.message })
+  }
+})
+
 router.patch('/update/create/action/:id', uploadDocuments.array('attachments'), async (req, res) => {
   try {
     const actionInfo = req.body
