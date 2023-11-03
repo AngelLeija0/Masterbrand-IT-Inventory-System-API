@@ -59,7 +59,9 @@ router.patch('/update/add-new-image/:id', uploadDocuments.array('attachments'), 
       return res.status(400).json({ message: 'No data send it' })
     }
 
-    asset.images?.all ? '' : asset.images?.all = []
+    if (!asset.images?.all) {
+      asset.images.all = []
+    }
 
     assetAttachments.map(image => {
       asset.images?.all.push(generateUniqueName(image.originalname))
