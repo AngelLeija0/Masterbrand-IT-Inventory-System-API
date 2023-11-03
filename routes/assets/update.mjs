@@ -69,7 +69,8 @@ router.patch('/update/add-new-image/:id', uploadDocuments.array('attachments'), 
 
     asset.updated_at = new Date()
 
-    const assetUpdated = await asset.save()
+    const assetUpdated = await Asset.findByIdAndUpdate(asset._id, asset)
+
     res.status(200).json(assetUpdated)
   } catch (error) {
     console.log(error)
