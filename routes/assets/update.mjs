@@ -46,7 +46,7 @@ router.patch('/update/:id', async (req, res) => {
   }
 })
 
-router.patch('/add-new-image/:id', uploadDocuments.array('attachments'), async (req, res) => {
+router.patch('/update/add-new-image/:id', uploadDocuments.array('attachments'), async (req, res) => {
   try {
     const assetAttachments = req.files
 
