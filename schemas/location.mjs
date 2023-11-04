@@ -3,7 +3,7 @@ import { z } from 'zod'
 const locationSchema = z.object({
   name: z.string(),
   created_at: z.date(),
-  updated_at: z.date()
+  updated_at: z.date().optional()
 })
 
 function validateLocation (object) {
