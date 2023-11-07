@@ -4,8 +4,9 @@ const administratorSchema = z.object({
   email: z.string().email(),
   password: z.string(),
   username: z.string(),
+  type: z.string(),
   created_at: z.date(),
-  updated_at: z.date()
+  updated_at: z.date().optional()
 })
 
 function validateAdministrator (object) {
