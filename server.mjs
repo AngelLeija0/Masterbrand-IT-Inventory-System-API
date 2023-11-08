@@ -37,6 +37,9 @@ app.use(function (req, res, next) {
 
 app.use('/uploads/attachments', express.static(path.join(__dirname, 'uploads', 'attachments')));
 
+import authRouter from './routes/auth/index.mjs';
+app.use('/auth', authRouter);
+
 import administratorsRouter from './routes/administrators/index.mjs';
 app.use('/administrators', administratorsRouter);
 
