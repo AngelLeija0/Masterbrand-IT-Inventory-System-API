@@ -18,6 +18,7 @@ router.post('/login', async (req, res) => {
         if (isMatch) {
             return res.status(200).json({
                 id: administrator._id,
+                username: administrator.username,
                 email: administrator.email,
                 type: administrator.type
             })
