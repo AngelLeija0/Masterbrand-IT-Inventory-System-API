@@ -1,8 +1,10 @@
 import { Router } from 'express';
-import allProducts from './all_products.mjs';
+import allAsset from './get_all_assets.mjs';
+import assetReport from './get_asset_report.mjs'
 
 const reportsRouter = Router();
 
-reportsRouter.use(allProducts);
+reportsRouter.use(allAsset);
+reportsRouter.use(assetReport);
 
 export default reportsRouter;
