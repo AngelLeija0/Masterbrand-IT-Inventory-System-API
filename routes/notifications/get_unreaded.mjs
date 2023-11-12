@@ -1,12 +1,30 @@
 import { Router } from 'express'
 const router = Router()
 
-import Notification from '../../models/notification.mjs'
+import Administrator from '../../models/administrator.mjs'
 
-router.get('/unreaded', async (req, res) => {
+router.get('/unreaded/:idUser', async (req, res) => {
   try {
-    const notifications = await Notification.find({ status: "unread" }).sort({ created_at: -1 })
-    res.status(200).json(notifications)
+    const administrator = await Administrator.findById(req.params.idUser)
+
+    if (!administrator) {
+      return res.status(200).json({ message: 'User not founded' })
+    }
+
+    const notifications = administrator.notifications
+    const unreadedNotifications = []
+
+    notifications.map(notification => {
+      if (notification.status === 'unread') {
+        unreadedNotifications.push(notification)
+      }
+    })
+
+    unreadedNotifications.sort(function (a, b) {
+      return b.created_at - a.created_at
+    })
+
+    res.status(200).json(unreadedNotifications)
   } catch (error) {
     res.status(500).json({ message: error.message })
   }

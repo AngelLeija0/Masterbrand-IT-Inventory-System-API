@@ -5,6 +5,7 @@ const administratorSchema = new Schema(
     email: String,
     password: String,
     username: String,
+    notifications: Array,
     type: String,
     created_at: Date,
     updated_at: Date

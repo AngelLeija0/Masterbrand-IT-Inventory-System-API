@@ -21,7 +21,7 @@ router.post('/create', async (req, res) => {
     const categoryAdded = await newCategory.save()
 
     const notificationName = "Nueva categoria creada"
-    const notificationDescription = `Ha sido sido creata una nueva categoria llamada ${categoryAdded.name}`
+    const notificationDescription = `Ha sido sido creada una nueva categoria llamada ${categoryAdded.name}`
     const notificationIcon = "bookmark"
     const notificationImportance = "normal"
     createNotification(notificationName, notificationDescription, notificationIcon, notificationImportance)

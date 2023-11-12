@@ -26,13 +26,6 @@ router.patch('/update/:id', async (req, res) => {
     category.updated_at = new Date()
 
     const categoryUpdated = await category.save()
-
-    const notificationName = "Categoria editada"
-    const notificationDescription = `Ha sido sido editada una categoria llamada ${categoryUpdated.name}`
-    const notificationIcon = "bookmark"
-    const notificationImportance = "normal"
-    createNotification(notificationName, notificationDescription, notificationIcon, notificationImportance)
-
     res.status(200).json(categoryUpdated)
   } catch (error) {
     console.log(error)

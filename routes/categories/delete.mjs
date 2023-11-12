@@ -9,7 +9,7 @@ router.delete('/delete/:id', async (req, res) => {
     const categoryDeleted = await Category.findByIdAndDelete(req.params.id)
 
     const notificationName = "Categoria eliminada"
-    const notificationDescription = `Ha sido sido eliminada una nueva categoria llamada ${categoryDeleted.name}`
+    const notificationDescription = `Ha sido sido eliminada una categoria llamada ${categoryDeleted.name}`
     const notificationIcon = "bookmark"
     const notificationImportance = "medium"
     createNotification(notificationName, notificationDescription, notificationIcon, notificationImportance)
