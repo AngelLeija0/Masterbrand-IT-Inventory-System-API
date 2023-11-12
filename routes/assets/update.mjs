@@ -3,6 +3,7 @@ const router = Router()
 
 import Asset from '../../models/asset.mjs'
 import { validatePartialAsset } from '../../schemas/asset.mjs'
+import createNotification from './../notifications/create.mjs'
 
 import fs from 'fs/promises'
 import multer from 'multer'
@@ -39,6 +40,13 @@ router.patch('/update/:id', async (req, res) => {
     asset.updated_at = new Date()
 
     const assetUpdated = await asset.save()
+
+    const notificationName = "Producto editado"
+    const notificationDescription = `Ha sido sido editado un producto llamado ${assetUpdated.description}`
+    const notificationIcon = "inventory"
+    const notificationImportance = "normal"
+    createNotification(notificationName, notificationDescription, notificationIcon, notificationImportance)
+
     res.status(200).json(assetUpdated)
   } catch (error) {
     console.log(error)
@@ -70,6 +78,12 @@ router.patch('/update/add-new-image/:id', uploadDocuments.array('attachments'), 
     asset.updated_at = new Date()
 
     const assetUpdated = await Asset.findByIdAndUpdate(asset._id, asset)
+
+    const notificationName = "Imagen de producto agregada"
+    const notificationDescription = `Ha sido sido agregada la imagen de un producto llamado ${assetUpdated.description}`
+    const notificationIcon = "collections"
+    const notificationImportance = "normal"
+    createNotification(notificationName, notificationDescription, notificationIcon, notificationImportance)
 
     res.status(200).json(assetUpdated)
   } catch (error) {
@@ -112,6 +126,13 @@ router.patch('/update/create/action/:id', uploadDocuments.array('attachments'), 
     asset.updated_at = new Date()
 
     const assetUpdated = await asset.save()
+
+    const notificationName = "Acción agregada para un producto"
+    const notificationDescription = `Ha sido sido agregada una acción ${newAction.name} al producto ${assetUpdated.description}`
+    const notificationIcon = "add"
+    const notificationImportance = "normal"
+    createNotification(notificationName, notificationDescription, notificationIcon, notificationImportance)
+
     res.status(200).json(assetUpdated)
   } catch (error) {
     console.log(error)
@@ -158,6 +179,12 @@ router.patch('/update/delete/action/:id', async (req, res) => {
 
       asset.actions.splice(currentActionIndex, 1)
       asset.updated_at = new Date()
+
+      const notificationName = "Acción eliminada para un producto"
+      const notificationDescription = `Ha sido sido eliminado una acción ${currentAction.name} al producto ${asset.description}`
+      const notificationIcon = "delete"
+      const notificationImportance = "normal"
+      createNotification(notificationName, notificationDescription, notificationIcon, notificationImportance)
     }
 
     const assetUpdated = await asset.save()
@@ -196,6 +223,7 @@ router.patch('/update/update/action/:id', uploadDocuments.array('images'), async
       }
       
       asset.updated_at = new Date()
+      
     }
     
     const assetUpdated = await Asset.findByIdAndUpdate(asset._id, asset)

@@ -3,6 +3,7 @@ const router = Router()
 
 import Category from '../../models/category.mjs'
 import { validatePartialCategory } from '../../schemas/category.mjs'
+import createNotification from './../notifications/create.mjs'
 
 router.patch('/update/:id', async (req, res) => {
   try {
@@ -25,6 +26,13 @@ router.patch('/update/:id', async (req, res) => {
     category.updated_at = new Date()
 
     const categoryUpdated = await category.save()
+
+    const notificationName = "Categoria editada"
+    const notificationDescription = `Ha sido sido editada una categoria llamada ${categoryUpdated.name}`
+    const notificationIcon = "bookmark"
+    const notificationImportance = "normal"
+    createNotification(notificationName, notificationDescription, notificationIcon, notificationImportance)
+
     res.status(200).json(categoryUpdated)
   } catch (error) {
     console.log(error)

@@ -3,6 +3,7 @@ const router = Router()
 
 import Location from '../../models/location.mjs'
 import { validatePartialLocation } from '../../schemas/location.mjs'
+import createNotification from './../notifications/create.mjs'
 
 router.patch('/update/:id', async (req, res) => {
   try {
@@ -25,6 +26,13 @@ router.patch('/update/:id', async (req, res) => {
     location.updated_at = new Date()
 
     const locationUpdated = await location.save()
+
+    const notificationName = "Ubicación editada"
+    const notificationDescription = `Ha sido editada una ubicación llamada ${locationUpdated.name}`
+    const notificationIcon = "place"
+    const notificationImportance = "normal"
+    createNotification(notificationName, notificationDescription, notificationIcon, notificationImportance)
+
     res.status(200).json(locationUpdated)
   } catch (error) {
     res.status(500).json({ message: error.message })

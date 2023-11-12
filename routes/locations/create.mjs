@@ -3,6 +3,7 @@ const router = Router()
 
 import Location from '../../models/location.mjs'
 import { validateLocation } from '../../schemas/location.mjs'
+import createNotification from './../notifications/create.mjs'
 
 router.post('/create', async (req, res) => {
   try {
@@ -18,6 +19,13 @@ router.post('/create', async (req, res) => {
 
     const newLocation = new Location(validateInfo.data)
     const locationAdded = await newLocation.save()
+
+    const notificationName = "Nueva ubicación creada"
+    const notificationDescription = `Ha sido creada una nueva ubicación llamada ${locationAdded.name}`
+    const notificationIcon = "place"
+    const notificationImportance = "normal"
+    createNotification(notificationName, notificationDescription, notificationIcon, notificationImportance)
+
     res.status(201).json(locationAdded)
   } catch (error) {
     res.status(500).json({ message: error.message })

@@ -3,6 +3,7 @@ const router = Router()
 
 import Asset from '../../models/asset.mjs'
 import { validateAsset } from '../../schemas/asset.mjs'
+import createNotification from './../notifications/create.mjs'
 
 import multer from 'multer';
 import path from 'path';
@@ -64,8 +65,14 @@ router.post('/create', uploadDocuments.array('images'), async (req, res) => {
 
     const newAsset = new Asset(validateInfo.data)
     const assetAdded = await newAsset.save()
+
+    const notificationName = "Nuevo producto agregado"
+    const notificationDescription = `Ha sido sido agregado un nuevo producto llamado ${assetAdded.description}`
+    const notificationIcon = "inventory"
+    const notificationImportance = "normal"
+    createNotification(notificationName, notificationDescription, notificationIcon, notificationImportance)
+
     res.status(201).json(assetAdded)
-    
   } catch (error) {
     console.log(error)
     res.status(500).json({ message: error.message })

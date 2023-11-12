@@ -1,16 +1,10 @@
-import { Router } from 'express';
-import createRouter from './create.mjs';
-import deleteRouter from './delete.mjs';
-import getAllRouter from './get_all.mjs';
-import getByIdRouter from './get_by_id.mjs';
-import updateRouter from './update.mjs';
+import { Router } from 'express'
+import getAllRouter from './get_unreaded.mjs'
+import mark_as_read_it from './mark_as_read_it.mjs'
 
-const notificationsRouter = Router();
+const notificationsRouter = Router()
 
-notificationsRouter.use(createRouter);
-notificationsRouter.use(deleteRouter);
-notificationsRouter.use(getAllRouter);
-notificationsRouter.use(getByIdRouter);
-notificationsRouter.use(updateRouter);
+notificationsRouter.use(getAllRouter)
+notificationsRouter.use(mark_as_read_it)
 
-export default notificationsRouter;
+export default notificationsRouter

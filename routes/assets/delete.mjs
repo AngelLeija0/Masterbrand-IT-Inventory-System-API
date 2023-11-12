@@ -9,6 +9,7 @@ const __dirname = path.dirname(__filename)
 
 const router = Router()
 import Asset from '../../models/asset.mjs'
+import createNotification from './../notifications/create.mjs'
 
 router.delete('/delete/:id', async (req, res) => {
   try {
@@ -32,7 +33,13 @@ router.delete('/delete/:id', async (req, res) => {
       })
     }
 
-    await Asset.findByIdAndDelete(idAsset)
+    const assetDeleted = await Asset.findByIdAndDelete(idAsset)
+
+    const notificationName = "Producto eliminado"
+    const notificationDescription = `Ha sido sido eliminado un producto llamado ${assetDeleted.description}`
+    const notificationIcon = "inventory"
+    const notificationImportance = "medium"
+    createNotification(notificationName, notificationDescription, notificationIcon, notificationImportance)
 
     return res.status(200).json({ message: 'Registro eliminado correctamente' })
   } catch (error) {
