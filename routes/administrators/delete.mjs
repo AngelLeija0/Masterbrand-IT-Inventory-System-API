@@ -5,7 +5,7 @@ import Administrator from '../../models/administrator.mjs'
 
 router.delete('/delete/:id', async (req, res) => {
   await Administrator.findByIdAndDelete(req.params.id)
-  res.status(200)
+  res.status(200).json({ message: "Deleted correctly" })
   try {
   } catch (error) {
     res.status(500).json({ message: error.message })

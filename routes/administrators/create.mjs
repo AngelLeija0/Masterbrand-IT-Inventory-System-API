@@ -1,6 +1,8 @@
 import { Router } from 'express'
 const router = Router()
 
+import bcrypt from 'bcrypt'
+
 import Administrator from '../../models/administrator.mjs'
 import { validateAdministrator } from '../../schemas/administrator.mjs'
 
@@ -11,14 +13,27 @@ router.post('/create', async (req, res) => {
       return res.status(400).json({ message: "Data no found it" })
     }
 
+    administratorInfo.type = "admin"
+
     const validateInfo = validateAdministrator(administratorInfo)
     if (validateInfo.error) {
       return res.status(400).json({ message: validateInfo.error.message })
     }
 
-    const newAdministrator = new Administrator(validateInfo.data)
-    const administratorAdded = await newAdministrator.save()
-    res.status(201).json(administratorAdded)
+
+    const { password, ...otherInfo } = validateInfo.data;
+
+    const saltRounds = 10;
+    const hashedPassword = await bcrypt.hash(password, saltRounds);
+
+    const newAdministrator = new Administrator({
+      ...otherInfo,
+      password: hashedPassword,
+    });
+
+    const administratorAdded = await newAdministrator.save();
+
+    res.status(201).json(administratorAdded);
   } catch (error) {
     res.status(500).json({ message: error.message })
   }
