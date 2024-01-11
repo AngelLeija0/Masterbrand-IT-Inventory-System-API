@@ -19,6 +19,7 @@ const assetSchema = new Schema(
         warranty_expiration_date: String,
         operating_system: String,
         ip_address: String,
+        network_status: String,
         ram: String,
         location: String,
         location_extra_info: String,
