@@ -47,7 +47,7 @@ const assetSchema = z.object({
   operating_system: z.string().optional(),
   ip_address: z.string().optional(),
   ram: z.string().optional(),
-  network_status: z.optional(),
+  network_status: z.string().optional(),
   quantity: z.string().optional(),
   quantity_last_out: z.string().optional(),
   date_quantity_last_out: z.string().optional(),
