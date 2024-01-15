@@ -50,10 +50,14 @@ router.get('/asset/:assetName', async (req, res) => {
         const preAsset = JSON.stringify(asset)
         const finalAsset = JSON.parse(preAsset)
 
-        if (finalAsset.network_status !== undefined) {
-          totalNetwork++
-        } else {
-          totalLocal++
+        if (!finalAsset.network_status) {
+          return
+        }
+        if (finalAsset.network_status === "En red") {
+          return totalNetwork++
+        } 
+        if (finalAsset.network_status === "En local") {
+          return totalLocal++
         }
       })
       reportResults.push({
