@@ -72,6 +72,9 @@ app.use('/locations', locationsRouter)
 import notificationsRouter from './routes/notifications/index.mjs'
 app.use('/notifications', notificationsRouter)
 
+import tonersRouter from './routes/toners/index.mjs'
+app.use('/toners', tonersRouter)
+
 app.listen(3000, () => {
   console.log('Server started on port 3000')
 })
