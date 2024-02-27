@@ -14,9 +14,13 @@ router.post('/change/create', async (req, res) => {
     }
 
     const tonerAdded = await createTonerChange(tonerChangeInfo)
-    const actionAdded = await createActionToPrinter(tonerChangeInfo.printer.id)
-    
-    res.status(201).json({ tonerAdded, actionAdded })
+    const actionAdded = await createActionToPrinter(tonerChangeInfo)
+
+    if (tonerAdded.success && actionAdded.success) {
+      return res.status(201).json({ tonerAdded, actionAdded })
+    }
+
+    res.status(400).json({ message1: tonerAdded.message, message2: actionAdded.message })
   } catch (error) {
     res.status(500).json({ message: error.message })
   }
@@ -25,48 +29,32 @@ router.post('/change/create', async (req, res) => {
 async function createTonerChange(tonerChangeInfo) {
     const validateInfo = validateTonerChange(tonerChangeInfo)
     if (validateInfo.error) {
-      return res.status(400).json({ message: validateInfo.error.message })
+      return { success: false, message: validateInfo.error.message }
     }
     const newToner = new TonerChanges(validateInfo.data)
     const tonerAdded = await newToner.save()
-    return tonerAdded
+    return { success: true, data: tonerAdded }
 }
 
-async function createActionToPrinter(printerId) {
-    const printer = await Assets.findById(printerId)
+async function createActionToPrinter(tonerChangeInfo) {
+    const printer = await Assets.findById(tonerChangeInfo.id)
     if (!printer) {
-        return null
-    }
-
-    const asset = await Asset.findById(req.params.id)
-    if (!asset) {
-      return res.status(404).json({ message: 'Asset not found' })
-    }
-
-    if (!actionInfo) {
-      return res.status(400).json({ message: 'Action info no found it' })
+        return { success: false, message: validateInfo.error.message }
     }
 
     const newAction = {
       id: Date.now(),
-      name: actionInfo.name,
-      description: actionInfo.description,
+      name: `Cambio de toner`,
+      description: `Cambio de toner: ${a}`,
       status: actionInfo.status,
       date: new Date()
     }
 
-    if (assetAttachments) {
-      const actionAttachments = []
-      assetAttachments.map(image => {
-        actionAttachments.push(generateUniqueName(image.originalname))
-      })
-      newAction.attachments = actionAttachments
-    }
+    printer.actions.push(newAction)
+    printer.updated_at = new Date()
 
-    asset.actions.push(newAction)
-    asset.updated_at = new Date()
-
-    const assetUpdated = await asset.save()
+    const printerUpdated = await printer.save()
+    return { success: true, data: printerUpdated }
 }
 
 export default router
