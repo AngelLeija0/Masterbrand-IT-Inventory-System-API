@@ -1,0 +1,16 @@
+POST http://localhost:3000/toners/changes/create
+Content-Type: application/json
+
+{
+  "toner": {
+    "id": "12345678",
+    "name": "TN-520"
+  },
+  "printer": {
+    "id": "65a03518cc187e24b408ed6a",
+    "name": "Impresora Brother en kiosko de supervisor de Celda 6"
+  },
+  "coments": "Se cambió el toner por agotamiento",
+  "created_at": "2024-02-29T15:35:16.000Z",
+  "updated_at": "2024-02-29T15:35:16.000Z"
+}
