@@ -1,14 +1,14 @@
 import { Router } from 'express';
 import getAllRouter from './get_all.mjs';
+import getByIdRouter from "./get_by_id.mjs"
 import createRouter from './create.mjs';
-import getAllChangesRouter from './changes/get_all.mjs'
-import createChangesRouter from './changes/create.mjs';
+import updateRouter from './update.mjs'
 
 const tonersRouter = Router();
 
 tonersRouter.use(getAllRouter);
+tonersRouter.use(getByIdRouter);
 tonersRouter.use(createRouter);
-tonersRouter.use(getAllChangesRouter);
-tonersRouter.use(createChangesRouter);
+tonersRouter.use(updateRouter);
 
 export default tonersRouter;

@@ -1,10 +1,11 @@
-POST http://localhost:3000/toners/changes/create
+POST http://localhost:3000/toner-changes/create
 Content-Type: application/json
 
 {
   "toner": {
-    "id": "12345678",
-    "name": "TN-520"
+    "id": "65d796ceb49ac852a330601c",
+    "name": "Brother",
+    "color": "black"
   },
   "printer": {
     "id": "65a03518cc187e24b408ed6a",

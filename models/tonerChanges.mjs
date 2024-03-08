@@ -4,12 +4,12 @@ const tonerChangesSchema = new Schema(
     {
         toner: Object,
         printer: Object,
-        coments: String,
+        comments: String,
         created_at: Date,
         updated_at: Date
     },
     {
-        collection: 'toners'
+        collection: 'tonerChanges'
     }
 )
 

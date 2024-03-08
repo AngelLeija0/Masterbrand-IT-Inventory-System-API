@@ -10,8 +10,9 @@ const tonerSchema = z.object({
     quantity: z.string(),
     date: z.string()
   }),
+  stock: z.number(),
   created_at: z.date(),
-  updated_at: z.date()
+  updated_at: z.date(),
 })
 
 function validateToner (object) {

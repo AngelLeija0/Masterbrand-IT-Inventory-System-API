@@ -5,10 +5,18 @@ import Asset from '../../models/asset.mjs'
 
 router.get('/', async (req, res) => {
   try {
+    const { printer } = req.query
+    if (printer) {
+      const assetsFiltered = await Asset.find({ category: { $in: ["Impresora", "Impresoras", "Printer", "Printers"] } }).sort({ created_at: -1 })
+      if (assetsFiltered == null || assetsFiltered == {}) {
+        return res.status(200).json({ message: "No data found it " })
+      }
+      return res.status(200).json(assetsFiltered)
+    }
     const assets = await Asset.find().sort({ created_at: -1 })
 
     if (assets == null || assets == {}) {
-      return res.status(200).json({})
+      return res.status(200).json({ message: "No data found it " })
     }
 
     const assetsToSend = []

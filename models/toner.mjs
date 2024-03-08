@@ -5,6 +5,7 @@ const tonerSchema = new Schema(
         name: String,
         incomingStock: Object,
         outgoingStock: Object,
+        stock: Number,
         created_at: Date,
         updated_at: Date
     },

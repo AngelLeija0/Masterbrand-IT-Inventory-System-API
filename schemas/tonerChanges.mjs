@@ -3,13 +3,14 @@ import { z } from 'zod'
 const tonerChangeSchema = z.object({
   toner: z.object({
     id: z.string(),
-    name: z.string()
+    name: z.string(),
+    color: z.string()
   }),
   printer: z.object({
     id: z.string(),
     name: z.string()
   }),
-  coments: z.string(),
+  comments: z.string(),
   created_at: z.date(),
   updated_at: z.date()
 })
