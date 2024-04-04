@@ -1,14 +1,15 @@
 import { Router } from 'express'
 const router = Router()
 
-import Toner from '../../models/location.mjs'
+import Toner from '../../models/toner.mjs'
 import createNotification from './../notifications/create.mjs'
 
-router.delete('/delete/:id', async (req, res) => {
-    const tonerDeleted = await Toner.findByIdAndDelete(req.params.id)
+import { mongo } from 'mongoose'
 
-    res.status(200).json({ message: "Delete it correctly" })
+router.delete('/delete/:id', async (req, res) => {
   try {
+    const tonerDeleted = await Toner.findByIdAndDelete(req.params.id)
+    res.status(200).json({ message: "Delete it correctly", data: tonerDeleted })
   } catch (error) {
     res.status(500).json({ message: error.message })
   }

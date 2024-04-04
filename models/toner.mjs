@@ -3,6 +3,7 @@ import { Schema, model } from 'mongoose'
 const tonerSchema = new Schema(
     {
         name: String,
+        color: String,
         incomingStock: Object,
         outgoingStock: Object,
         stock: Number,

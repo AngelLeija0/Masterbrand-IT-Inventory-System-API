@@ -2,6 +2,7 @@ import { z } from 'zod'
 
 const tonerSchema = z.object({
   name: z.string(),
+  color: z.string(),
   incomingStock: z.object({
     quantity: z.string(),
     date: z.string()

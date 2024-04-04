@@ -17,7 +17,7 @@ router.post('/create', async (req, res) => {
     }
     const newToner = new Toner(validateInfo.data)
     const tonerAdded = await newToner.save()
-    res.status(201).json(tonerAdded)
+    res.status(201).json({ success: true, data: tonerAdded })
   } catch (error) {
     res.status(500).json({ message: error.message })
   }
