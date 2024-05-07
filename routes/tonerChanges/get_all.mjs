@@ -11,6 +11,7 @@ router.get('/', async (req, res) => {
     }
     const tonerChangesMap = tonerChanges.map((tonerChange) => {
       return {
+        _id: tonerChange._id,
         toner: tonerChange.toner.name,
         color: tonerChange.toner.color,
         printer: tonerChange.printer.name,
