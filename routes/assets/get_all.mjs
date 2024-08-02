@@ -25,7 +25,7 @@ router.get('/', async (req, res) => {
       const assetMainInfo = {
         _id: asset._id,
         category: asset.category,
-        image: asset.images.default_image,
+        image: asset.images?.default_image,
         description: asset.description,
         manufacturer: asset.manufacturer,
         model: asset.model,
@@ -33,7 +33,7 @@ router.get('/', async (req, res) => {
         location: asset.location,
         location_extra_info: asset.location_extra_info,
         current_employee: asset.current_employee,
-        status: asset.status.name,
+        status: asset.status?.name,
         created_at: asset.created_at
       }
       assetsToSend.push(assetMainInfo)
