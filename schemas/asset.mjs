@@ -2,14 +2,6 @@ import { z } from "zod";
 
 const assetSchema = z.object({
   category: z.string().optional(),
-  /*
-  images: z
-    .array(
-      z.object({
-        __key: z.string(),
-      })
-    )
-    .optional(),*/
   description: z.string().optional(),
   manufacturer: z.string().optional(),
   model: z.string().optional(),

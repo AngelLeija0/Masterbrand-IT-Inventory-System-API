@@ -50,7 +50,7 @@ router.post('/create', uploadDocuments.array('images'), async (req, res) => {
     if (validateInfo.error) {
       return res.status(400).json({ message: "Error in schema: " + validateInfo.error.message })
     }
-    
+
     if (assetImages) {
       const nameImages = assetImages.map((image) => {
         return generateUniqueName(image.originalname)
@@ -62,6 +62,8 @@ router.post('/create', uploadDocuments.array('images'), async (req, res) => {
     }
 
     validateInfo.data.created_at = new Date()
+
+    console.log({ asset: validateInfo.data })
 
     const newAsset = new Asset(validateInfo.data)
     const assetAdded = await newAsset.save()
@@ -92,3 +94,29 @@ function generateUniqueName(originalname) {
 }
 
 export default router
+
+
+
+
+/*
+  asset: {
+    category: 'Impresora',
+    description: 'Brother HL-5100DN Supervisor Celda 1',
+    model: 'Brother HL-5100DN',
+    serial_number: '12345678',
+    location: 'Celda 1',
+    location_extra_info: 'Kiosko de Supervisor',
+    status: {
+      name: 'Activo',
+      description: 'n/a',
+      date: 2024-08-02T16:38:26.066Z
+    },
+    ip_address: '0.0.0.0',
+    network_status: 'En local',
+    images: {
+      default_image: 'Brother HL-L5100DN-2070-2080.jfif',
+      all: [Array]
+    },
+    created_at: 2024-08-02T16:38:26.075Z
+  }
+*/
