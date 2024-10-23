@@ -63,8 +63,6 @@ router.post('/create', uploadDocuments.array('images'), async (req, res) => {
 
     validateInfo.data.created_at = new Date()
 
-    console.log({ asset: validateInfo.data })
-
     const newAsset = new Asset(validateInfo.data)
     const assetAdded = await newAsset.save()
 

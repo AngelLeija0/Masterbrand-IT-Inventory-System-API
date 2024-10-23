@@ -85,7 +85,6 @@ function validatePartialAsset(object) {
   if (object.warranty_expiration_date) {
     object.warranty_expiration_date = new Date(object.warranty_expiration_date);
   }
-  console.log(object);
   return assetSchema.partial().safeParse(object);
 }
 

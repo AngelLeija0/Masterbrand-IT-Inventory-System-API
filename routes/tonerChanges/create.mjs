@@ -100,21 +100,16 @@ async function updateTonerStock(tonerId) {
 async function createActionToPrinter(printerId, toner) {
   try {
     const printer = await Assets.findById(printerId);
-    console.log("p1")
     if (!printer) {
       return { success: false, message: validateInfo.error.message };
     }
-
-    console.log({ toner, printer })
     const newAction = {
       id: Date.now(),
       name: `Cambio de toner`,
-      description: `Cambio de toner ${toner.name} a impresora ${printer.name}`,
+      description: `Cambio de toner ${toner.name}`,
       status: "Completado",
       date: new Date(),
     };
-    console.log(newAction)
-
     printer.actions.push(newAction);
     printer.updated_at = new Date();
     const printerUpdated = await printer.save();
@@ -123,7 +118,5 @@ async function createActionToPrinter(printerId, toner) {
     return { success: false, message: error.message };
   }
 }
-
-
 
 export default router;

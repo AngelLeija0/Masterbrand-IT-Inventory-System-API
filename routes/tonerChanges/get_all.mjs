@@ -13,8 +13,10 @@ router.get('/', async (req, res) => {
       return {
         _id: tonerChange._id,
         toner: tonerChange.toner.name,
+        toner_id: tonerChange.toner.id,
         color: tonerChange.toner.color,
         printer: tonerChange.printer.name,
+        printer_id: tonerChange.printer.id,
         comments: tonerChange.comments,
         date: tonerChange.created_at
       }

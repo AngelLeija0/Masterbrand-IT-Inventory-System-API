@@ -51,6 +51,11 @@ app.use(
   express.static(path.join(__dirname, 'uploads', 'attachments'))
 )
 
+app.use(
+  '/uploads/files',
+  express.static(path.join(__dirname, 'uploads', 'files'))
+)
+
 import authRouter from './routes/auth/index.mjs'
 app.use('/auth', authRouter)
 
